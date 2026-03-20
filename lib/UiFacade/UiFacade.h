@@ -11,9 +11,10 @@ class UiFacade {
 
         void begin();
 
-        // lcd + buzzer + traffic light
         void update(uint32_t now_ms, const UiModel& m);
 
+
+        // still in use?
         void notifyAuthSuccess(uint32_t now_ms);
 
         void notifyRfidAccepted(uint32_t now_ms);

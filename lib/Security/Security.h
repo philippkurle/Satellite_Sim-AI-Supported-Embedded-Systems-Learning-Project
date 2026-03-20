@@ -3,16 +3,18 @@
 #include <stdint.h>
 #include "config_security.h"
 
-enum class SecurityState : uint8_t {
-    WAIT_RFID,
-    WAIT_CODE,
-    LOCKOUT,
-    AUTH_OK
+enum class SecurityState : uint8_t { // maps readable names to integer values
+    WAIT_RFID, // 0
+    WAIT_CODE, // 1
+    LOCKOUT,   // 2
+    AUTH_OK    // 3
 };
 
 class Security {
     public:
 
+        // defines a constructor from Security class
+        // const cfg::SecurityConfig& cfg (SecurityConfig object from cfg namespace) = parameter; cfg::SECURITY_CONFIG = default argument
         explicit Security(const cfg::SecurityConfig& cfg = cfg::SECURITY_CONFIG);
 
         void begin();
@@ -26,7 +28,7 @@ class Security {
         // Event
         bool consumeAuthSuccessEvent();
 
-        // Status für UI
+        // dispaly state for ui
         SecurityState state() const {
             return _state;
         }

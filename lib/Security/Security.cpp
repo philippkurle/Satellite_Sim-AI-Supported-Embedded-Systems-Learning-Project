@@ -2,7 +2,7 @@
 #include <string.h>
 #include <Arduino.h>
 
-Security::Security(const cfg::SecurityConfig& _cfg) : _cfg(_cfg) {}
+Security::Security(const cfg::SecurityConfig& _cfg) : _cfg(_cfg) {} //assigns the parameter _cfg to the class member _cfg
 
 void Security::begin() {
     reset(0);
@@ -28,13 +28,13 @@ void Security::update(uint32_t now_ms) {
 }
 
 void Security::onRfidUid(const uint8_t* uid, uint8_t len, uint32_t now_ms) {
-    if (_state == SecurityState::LOCKOUT) {
+    if (_state == SecurityState::LOCKOUT) { // ignore the scan
         return;
     }
-    if (_state != SecurityState::WAIT_RFID) {
+    if (_state != SecurityState::WAIT_RFID) { // ignore if not WAIT_RFID
         return;
     }
-    if (isRfidAllowed(uid, len) == true) {
+    if (isRfidAllowed(uid, len) == true) { // if card allowed wait for code
         toWaitCode(now_ms);
     }
 }
@@ -72,9 +72,11 @@ void Security::onKey(char key, uint32_t now_ms) {
     if (key < '0' || key > '9') {
         return;
     }
+
+    // stores pressed digit key in buffer
     if (_entered_len < _cfg.code_len_max && _entered_len < kBufMax - 1) {
         _entered[_entered_len++] = key;
-        _entered[_entered_len] = '\0';
+        _entered[_entered_len] = '\0'; // null-terminates the string -> can be safely treated as a C-string later
     }
 }
 
@@ -98,6 +100,7 @@ void Security::reset(uint32_t now_ms) {
     clearEntered();
 }
 
+// copy entered code for display on lcd?
 void Security::copyEntered(char* out, uint8_t out_sz) const {
   if (out_sz == 0) {
     return;
@@ -110,7 +113,6 @@ void Security::copyEntered(char* out, uint8_t out_sz) const {
   out[n] = '\0';
 }
 
-// intern
 void Security::toWaitRfid(uint32_t now_ms) {
     (void)now_ms;
     _state = SecurityState::WAIT_RFID;
@@ -140,7 +142,7 @@ void Security::clearEntered() {
 }
 
 bool Security::codeMatches() const {
-    return strcmp(_entered, _cfg.pin_code) == 0;
+    return strcmp(_entered, _cfg.pin_code) == 0; // compares entered and correct code, returns 0 if they are identical
 }
 
 bool Security::isRfidAllowed(const uint8_t* uid, uint8_t len) const {

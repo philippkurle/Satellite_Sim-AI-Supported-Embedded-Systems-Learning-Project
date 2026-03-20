@@ -6,27 +6,28 @@
 #include "config_thresholds.h"
 
 class Sensors {
-    public: // extern nutzbar
+    public: // usable from outside the class eg. from outside Sensors
 
         // Setup: PinModes etc.
         void begin();
                
-        void update(uint32_t now_ms); // blockiert nicht
+        void update(uint32_t now_ms); // non blocking via use of now_ms
         
-        // Zugriff auf aktuelle Messdaten
-        const SensorData& data() const; // & --> Referenz auf Original (keine Kopie!); const --> nicht änderbar (nur lesen)
+        // returns read only, referenced struct
+        const SensorData& data() const; // & -> referencing the original, not a copy; const -> read only
 
-    private: // nur sichtbar für Sensors (nur intern nutzbar)
+    private: // only useable within class Sensors
 
-        // speichert letzte Messdaten
+        // saves recent data
         SensorData _data;
 
         uint32_t _next_sample_ms = 0;
-        uint16_t _sample_period_ms = 50; // 20Hz
+        uint16_t _sample_period_ms = 50; // 50ms -> 20Hz
 
-        // Hilfsfunktion
+        // returns an average of the last <samples> measurements from <pin>
         uint16_t readAnalogAveraged(uint8_t pin, uint8_t samples);
 
+        // returns Hysteresis state for high = event measurements
         struct BoolHysteresisHigh {
             uint16_t on;
             uint16_t off;
@@ -47,6 +48,7 @@ class Sensors {
             }
         };
 
+        // returns Hysteresis state for low = event measurements
         struct BoolHysteresisLow {
             uint16_t on;
             uint16_t off;
@@ -68,7 +70,7 @@ class Sensors {
         };
 
 
-        BoolHysteresisHigh _water_suspect_hys; // legt Objekt des Typs BoolHysteresis in der class Sensors an
+        BoolHysteresisHigh _water_suspect_hys; // initialises an object of type BoolHysteresisHigh within class Sensors
         BoolHysteresisHigh _water_confirm_hys;
 
         BoolHysteresisLow _pv_warn_hys;
