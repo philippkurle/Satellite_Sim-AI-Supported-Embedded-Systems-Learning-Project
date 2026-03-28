@@ -5,20 +5,20 @@ This repository documents Satellite_Sim, a simplified satellite subsystem simula
 ## Context
 
 I started this project as a self-directed semester-break learning project after I was unable to take an assistant position in a university lab, as I had originally planned.
-The goal was to gain hands-on experience in embedded systems, hardware integration, and system-oriented thinking through the development of a simplified satellite subsystem simulator on an Arduino Mega.
+The goal was to gain hands-on experience in embedded systems, hardware integration, and system-oriented thinking. I hoped to achieve this by developing a simplified satellite subsystem simulator on an Arduino Mega.
 The software implementation was heavily AI-assisted, as I had only very limited knowledge of C++ and object-oriented programming when I started the project.
 
 ## Project Overview
 
 Satellite_Sim simulates a simplified satellite system where subsystem behavior and availability are determined by the simulated energy input from the photovoltaic (PV) solar cell.
 
-The Arduino Mega is powered from a 5 V USB power bank, while the micro servo is supplied separately from an additional 5 V output. The solar cell is not used as the primary power source for the controller, but its measured voltage is used as a proxy for available solar energy. To reduce the risk of damaging the Arduino´s analog pins, I implemented a 10 kΩ / 10 kΩ voltage divider to halve the applied PV voltage. The solar cell produced approximately 5.12 V during testing under direct sun exposure.
+The Arduino Mega is powered from a 5 V USB power bank, as well as the micro servo, which is supplied separately from an additional 5 V output. The solar cell is not used as the primary power source for the controller, but its measured voltage is used as a proxy for available solar energy. I implemented a 10 kΩ / 10 kΩ voltage divider to halve the applied PV voltage. By that, I reduced the risk of damaging the Arduino´s analog pins. The solar cell produced approximately 5.12 V during testing under direct sun exposure.
 
 Based on the measured PV voltage, as well as the simulated leak status from the water-level sensor, the system operates in one of three modes:
 
 - **NOMINAL** - normal operation with full system availability
-- **WARN** - limited operational availability and duty-cycle-dependent telemetry
-- **SAFE** - safety-oriented system behaviour with strict duty-cycle telemetry
+- **WARN** - limited operation and decreased duty-cycle telemetry
+- **SAFE** - safety-oriented system behavior with strict duty-cycle telemetry
 
 These modes determine which subsystems will remain responsive and how they react.
 
