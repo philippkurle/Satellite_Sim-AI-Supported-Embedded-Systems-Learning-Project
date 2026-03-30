@@ -24,7 +24,7 @@ These modes determine which subsystems remain responsive and how they react.
 
 ## Development Snapshot
 
-[![prototype_picture_2](media/prototype_picture(2).jpeg)]
+[prototype_picture_2](media/prototype_picture(2).jpeg)
 
 *Early integrated prototype during subsystem testing. Visible components include the Arduino Mega, RFID module, keypad, LCD, traffic-light mode indicator, buzzer, 4-digit display, and servo.*
 
